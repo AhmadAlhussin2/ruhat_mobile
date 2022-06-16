@@ -91,7 +91,11 @@ class _EnterFormState extends State<EnterForm> {
         ),
         padding: const EdgeInsets.fromLTRB(50, 15, 50, 15),
       ),
-      onPressed: () {},
+      onPressed: () {
+        // Send a request to a server (Ruhat api) and if the response got a 200 status code, let the user to a second page, where the quiz is fetched
+        // Otherwise, display an error
+
+      },
       child: const Text(
         'ENTER',
         style: TextStyle(

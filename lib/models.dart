@@ -14,7 +14,7 @@ class Quiz {
 }
 
 Future<void> fetchQuestions() async {
-  final uri = Uri.https('daber.space','/api/get_quiz',{'id':"123"});
+  final uri = Uri.https('daber.space','/api/get_quiz',{'id':"123", 'name':"Student"});
   final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
   if (response.statusCode==200){
     print(Quiz.fromJson(response.body).questions[0]);
