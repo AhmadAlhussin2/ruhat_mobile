@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruhat/quiz_page.dart';
 
 class EnterQuiz extends StatelessWidget {
   const EnterQuiz({Key? key}) : super(key: key);
@@ -94,6 +95,12 @@ class _EnterFormState extends State<EnterForm> {
       onPressed: () {
         // Send a request to a server (Ruhat api) and if the response got a 200 status code, let the user to a second page, where the quiz is fetched
         // Otherwise, display an error
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context){
+            return const QuizPage();
+          }),
+        );
 
       },
       child: const Text(

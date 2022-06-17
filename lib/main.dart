@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ruhat/models.dart';
 import 'package:ruhat/starting_page.dart';
-import 'package:ruhat/quiz_page.dart';
 
 void main() {
-  runApp(const QuizPage());
+  runApp(const EnterQuiz());
 }
 
 class MyApp extends StatelessWidget {

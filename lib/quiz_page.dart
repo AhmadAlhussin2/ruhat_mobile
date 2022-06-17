@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ruhat/api.dart';
+import 'package:ruhat/models.dart';
+import 'package:ruhat/starting_page.dart';
 
 class QuizPage extends StatelessWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -19,58 +22,118 @@ class QuizForm extends StatefulWidget {
 }
 
 class _QuizFormState extends State<QuizForm> {
+  final listOfOptions = ["A", "B", "C", "D"];
+  late Future<Quiz> _dataFuture;
+  var index = 0;
+  var quizLength = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _dataFuture = getQuiz();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(169, 192, 198, 1),
-      body: Column(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: screenHeight / 2.8,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(0, 95, 117, 1),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.elliptical(screenWidth / 2, 40),
-                  bottomRight: Radius.elliptical(screenWidth / 2, 40),
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    "What is the capital of Syria?",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+      backgroundColor: bgColor,
+      body: FutureBuilder<Quiz>(
+        future: _dataFuture,
+        // initialData: Quiz.fromJson("Null"),
+        builder: (BuildContext context, AsyncSnapshot<Quiz> snapshot) {
+          if (snapshot.hasData) {
+            quizLength = (snapshot.data as Quiz).questions.length;
+            return Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: screenHeight / 2.8,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(0, 95, 117, 1),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.elliptical(screenWidth / 2, 40),
+                        bottomRight: Radius.elliptical(screenWidth / 2, 40),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          (snapshot.data as Quiz).questions[index]['question'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 30),
-          optionButton(context, "A", "Damascus"),
-          optionButton(context, "B", "Moscow"),
-          optionButton(context, "C", "Dubai"),
-          optionButton(context, "D", "Paris"),
-        ],
+                const SizedBox(height: 30),
+                optionButton(
+                    context,
+                    listOfOptions[0],
+                    (snapshot.data as Quiz).questions[index]['options'][0],
+                    (snapshot.data as Quiz).questions[index]['answer']),
+                optionButton(
+                    context,
+                    listOfOptions[1],
+                    (snapshot.data as Quiz).questions[index]['options'][1],
+                    (snapshot.data as Quiz).questions[index]['answer']),
+                optionButton(
+                    context,
+                    listOfOptions[2],
+                    (snapshot.data as Quiz).questions[index]['options'][2],
+                    (snapshot.data as Quiz).questions[index]['answer']),
+                optionButton(
+                    context,
+                    listOfOptions[3],
+                    (snapshot.data as Quiz).questions[index]['options'][3],
+                    (snapshot.data as Quiz).questions[index]['answer']),
+              ],
+            );
+          } else {
+            // TODO: There should be a loading screen for a quiz
+            return const Text("Debug");
+          }
+        },
       ),
     );
   }
 
-  TextButton optionButton(
-      BuildContext context, String optionLetter, String optionStatement) {
+  TextButton optionButton(BuildContext context, String optionLetter,
+      String optionStatement, String correctAnswer) {
     return TextButton(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all<Color>(
           const Color.fromRGBO(0, 95, 117, 1),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        if (checkAnswer(optionStatement, correctAnswer)) {
+          // Got correct answer
+          // TODO: increment a score of correct answers and calculate points
+        } else {
+          // Fail
+
+        }
+        index++;
+        // if index is equal to length of a quiz => go to the result page
+        if (index==quizLength){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context){
+
+              return const EnterQuiz();
+            }),
+          );
+        } else {
+          setState(() {});
+        }
+      },
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
