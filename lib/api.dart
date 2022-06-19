@@ -21,13 +21,11 @@ postAnswer(String userAnswer, String correctAnswer, String name, String pincode)
     final uri = Uri.https(
         'daber.space', '/api/post_answer', {'name': name,'id': pincode,'correct': 'true'});
     final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
-    print(response.body);
     return true;
   } else {
     final uri = Uri.https(
         'daber.space', '/api/post_answer', {'name': name,'id': pincode,'correct': 'false'});
     final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
-    print(response.body);
     return false;
   }
 }
@@ -36,6 +34,5 @@ Future<Map<String, dynamic>> getResult(String name, String pincode) async {
     final uri = Uri.https(
         'daber.space', '/api/get_result', {'name': name,'id': pincode});
     final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*",'Content-Type': 'application/json'});
-    // print(response.body);
     return jsonDecode(response.body);
 }
