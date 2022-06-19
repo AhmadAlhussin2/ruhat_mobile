@@ -6,8 +6,8 @@ class EnterQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: EnterForm(),
+    return Scaffold(
+      body: EnterForm(),
     );
   }
 }
@@ -52,9 +52,9 @@ class _EnterFormState extends State<EnterForm> {
                           children: [
                             formTitle(),
                             const SizedBox(height: 10),
-                            inputField(context, "Username"),
+                            inputField(context, "Username", nameController),
                             const SizedBox(height: 20),
-                            inputField(context, "PIN code"),
+                            inputField(context, "PIN code", pincodeController),
                             const SizedBox(height: 20),
                             enterButton(),
                             const SizedBox(height: 10),
@@ -82,7 +82,8 @@ class _EnterFormState extends State<EnterForm> {
       ),
     );
   }
-
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController pincodeController = new TextEditingController();
   TextButton enterButton() {
     return TextButton(
       style: TextButton.styleFrom(
@@ -95,12 +96,15 @@ class _EnterFormState extends State<EnterForm> {
       onPressed: () {
         // Send a request to a server (Ruhat api) and if the response got a 200 status code, let the user to a second page, where the quiz is fetched
         // Otherwise, display an error
+        final name = nameController.text;
+        final pincode = pincodeController.text;
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context){
-            return const QuizPage();
+            return QuizPage(name: name,pincode: pincode);
           }),
         );
+
 
       },
       child: const Text(
@@ -114,11 +118,12 @@ class _EnterFormState extends State<EnterForm> {
     );
   }
 
-  SizedBox inputField(BuildContext context, String hint) {
+  SizedBox inputField(BuildContext context, String hint, TextEditingController controller) {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 40,
       child: TextFormField(
         autofocus: false,
+        controller: controller,
         textAlign: TextAlign.center,
         cursorColor: const Color.fromRGBO(0, 95, 117, 1),
         style: const TextStyle(

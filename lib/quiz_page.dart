@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
-import 'package:ruhat/starting_page.dart';
+
+
+import 'finish_quiz.dart';
+
 
 class QuizPage extends StatelessWidget {
-  const QuizPage({Key? key}) : super(key: key);
+  final name;
+  final pincode;
+  QuizPage({Key? key, this.name, this.pincode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: QuizForm(),
+    return Scaffold(
+      body: QuizForm(name: name,pincode: pincode),
     );
   }
 }
 
 class QuizForm extends StatefulWidget {
-  const QuizForm({Key? key}) : super(key: key);
+  final name;
+  final pincode;
+  QuizForm({Key? key, this.name, this.pincode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QuizFormState();
@@ -26,11 +33,16 @@ class _QuizFormState extends State<QuizForm> {
   late Future<Quiz> _dataFuture;
   var index = 0;
   var quizLength = 0;
+  var name;
+  var pincode;
 
   @override
   void initState() {
     super.initState();
-    _dataFuture = getQuiz();
+    // print(widget.name);
+    _dataFuture = getQuiz(widget.name, widget.pincode).catchError(handleError);
+    name = widget.name;
+    pincode = widget.pincode;
   }
 
   @override
@@ -113,21 +125,16 @@ class _QuizFormState extends State<QuizForm> {
         ),
       ),
       onPressed: () {
-        if (checkAnswer(optionStatement, correctAnswer)) {
-          // Got correct answer
-          // TODO: increment a score of correct answers and calculate points
-        } else {
-          // Fail
-
-        }
+        postAnswer(optionStatement, correctAnswer,widget.name,widget.pincode);
         index++;
         // if index is equal to length of a quiz => go to the result page
         if (index==quizLength){
+          Navigator.pop(context);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context){
 
-              return const EnterQuiz();
+              return QuizEnd(name: name, pincode: pincode);
             }),
           );
         } else {
@@ -185,5 +192,14 @@ class _QuizFormState extends State<QuizForm> {
         ),
       ),
     );
+  }
+
+  handleError(e) {
+    if (e.toString()=="Exception: 404"){
+      // Handle not existing quiz
+    } else if (e.toString()=="Expection: 204"){
+      // Handle not opened quiz
+    }
+
   }
 }
