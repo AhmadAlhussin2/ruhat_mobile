@@ -6,7 +6,7 @@ class EnterQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: EnterForm(),
     );
   }
@@ -82,8 +82,8 @@ class _EnterFormState extends State<EnterForm> {
       ),
     );
   }
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController pincodeController = new TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
   TextButton enterButton() {
     return TextButton(
       style: TextButton.styleFrom(

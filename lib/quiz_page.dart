@@ -9,7 +9,7 @@ import 'finish_quiz.dart';
 class QuizPage extends StatelessWidget {
   final name;
   final pincode;
-  QuizPage({Key? key, this.name, this.pincode}) : super(key: key);
+  const QuizPage({Key? key, this.name, this.pincode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class QuizPage extends StatelessWidget {
 class QuizForm extends StatefulWidget {
   final name;
   final pincode;
-  QuizForm({Key? key, this.name, this.pincode}) : super(key: key);
+  const QuizForm({Key? key, this.name, this.pincode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QuizFormState();

@@ -20,12 +20,12 @@ postAnswer(String userAnswer, String correctAnswer, String name, String pincode)
   if (userAnswer == correctAnswer) {
     final uri = Uri.https(
         'daber.space', '/api/post_answer', {'name': name,'id': pincode,'correct': 'true'});
-    final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
+    await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
     return true;
   } else {
     final uri = Uri.https(
         'daber.space', '/api/post_answer', {'name': name,'id': pincode,'correct': 'false'});
-    final response = await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
+    await http.get(uri, headers: {"Access-Control-Allow-Origin": "*"});
     return false;
   }
 }
