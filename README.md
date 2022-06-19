@@ -1,6 +1,8 @@
 # Ruhat
 
-Mobile version for our [website](https://daber.space)
+Mobile version of our [website](https://daber.space)
+
+Now you can join a quiz, answer questions and get results on your smartphone! No need to oen your browser anymore.
 
 ## Features
 
