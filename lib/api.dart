@@ -11,12 +11,11 @@ Future<Quiz> getQuiz(name,pincode) async {
   if (response.statusCode == 200) {
     return Quiz.fromJson(response.body);
   } else {
-    // print(response.statusCode);
     throw Exception(response.statusCode);
   }
 }
 
-postAnswer(String userAnswer, String correctAnswer, String name, String pincode) async {
+Future<bool> postAnswer(String userAnswer, String correctAnswer, String name, String pincode) async {
   if (userAnswer == correctAnswer) {
     final uri = Uri.https(
         'daber.space', '/api/post_answer', {'name': name,'id': pincode,'correct': 'true'});

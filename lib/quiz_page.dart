@@ -125,18 +125,20 @@ class _QuizFormState extends State<QuizForm> {
         ),
       ),
       onPressed: () {
-        postAnswer(optionStatement, correctAnswer,widget.name,widget.pincode);
+        var result = postAnswer(optionStatement, correctAnswer,widget.name,widget.pincode);
         index++;
         // if index is equal to length of a quiz => go to the result page
         if (index==quizLength){
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context){
+          Future.delayed(const Duration(milliseconds: 500));
+          result.whenComplete(() {
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context){
 
               return QuizEnd(name: name, pincode: pincode);
-            }),
-          );
+            }));
+          });
         } else {
           setState(() {});
         }
