@@ -1,6 +1,6 @@
 on: push
 
-name: Code analysis
+name: Flutter/Dart analyzer
 
 jobs:
   build:
