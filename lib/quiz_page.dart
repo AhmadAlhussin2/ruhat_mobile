@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
-
-
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
+import 'dart:math' as math;
 import 'finish_quiz.dart';
-
 
 class QuizPage extends StatelessWidget {
   final name;
@@ -14,7 +14,7 @@ class QuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: QuizForm(name: name,pincode: pincode),
+      body: QuizForm(name: name, pincode: pincode),
     );
   }
 }
@@ -62,26 +62,45 @@ class _QuizFormState extends State<QuizForm> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: screenHeight / 2.8,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(0, 95, 117, 1),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.elliptical(screenWidth / 2, 40),
-                        bottomRight: Radius.elliptical(screenWidth / 2, 40),
+                  child: Stack(
+                    children: [
+                      DecoratedBox(
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(0, 95, 117, 1),
+                        ),
+                        child: WaveWidget(
+                          config: CustomConfig(
+                            colors: [
+                              Color.fromARGB(143, 221, 226, 232),
+                              Color.fromARGB(104, 221, 226, 232),
+                            ],
+                            durations: [
+                              10200,
+                              7100,
+                            ],
+                            heightPercentages: [
+                              0.85,
+                              0.80,
+                            ],
+                          ),
+                          size: const Size(double.infinity, 250),
+                          waveAmplitude: 0,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          (snapshot.data as Quiz).questions[index]['question'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            (snapshot.data as Quiz).questions[index]
+                                ['question'],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -125,17 +144,15 @@ class _QuizFormState extends State<QuizForm> {
         ),
       ),
       onPressed: () {
-        var result = postAnswer(optionStatement, correctAnswer,widget.name,widget.pincode);
+        var result = postAnswer(
+            optionStatement, correctAnswer, widget.name, widget.pincode);
         index++;
         // if index is equal to length of a quiz => go to the result page
-        if (index==quizLength){
+        if (index == quizLength) {
           Future.delayed(const Duration(milliseconds: 500));
           result.whenComplete(() {
             Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context){
-
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
               return QuizEnd(name: name, pincode: pincode);
             }));
           });
@@ -197,11 +214,10 @@ class _QuizFormState extends State<QuizForm> {
   }
 
   handleError(e) {
-    if (e.toString()=="Exception: 404"){
+    if (e.toString() == "Exception: 404") {
       // Handle not existing quiz
-    } else if (e.toString()=="Expection: 204"){
+    } else if (e.toString() == "Expection: 204") {
       // Handle not opened quiz
     }
-
   }
 }
