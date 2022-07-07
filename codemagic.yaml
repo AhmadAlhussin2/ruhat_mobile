@@ -1,3 +1,0 @@
-scripts:
-  - name: Build for iOS  
-    script: flutter build ios  
