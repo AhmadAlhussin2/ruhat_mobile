@@ -3,13 +3,12 @@ import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'dart:math' as math;
 import 'finish_quiz.dart';
 
 class QuizPage extends StatelessWidget {
-  final name;
-  final pincode;
-  const QuizPage({Key? key, this.name, this.pincode}) : super(key: key);
+  final String name;
+  final String pincode;
+  const QuizPage({Key? key, required this.name, required this.pincode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +19,9 @@ class QuizPage extends StatelessWidget {
 }
 
 class QuizForm extends StatefulWidget {
-  final name;
-  final pincode;
-  const QuizForm({Key? key, this.name, this.pincode}) : super(key: key);
+  final String name;
+  final String pincode;
+  const QuizForm({Key? key, required this.name, required this.pincode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QuizFormState();
@@ -33,8 +32,8 @@ class _QuizFormState extends State<QuizForm> {
   late Future<Quiz> _dataFuture;
   var index = 0;
   var quizLength = 0;
-  var name;
-  var pincode;
+  late String name;
+  late String pincode;
 
   @override
   void initState() {
@@ -47,7 +46,6 @@ class _QuizFormState extends State<QuizForm> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: bgColor,
@@ -71,11 +69,11 @@ class _QuizFormState extends State<QuizForm> {
                         child: WaveWidget(
                           config: CustomConfig(
                             colors: [
-                              Color.fromARGB(143, 221, 226, 232),
-                              Color.fromARGB(104, 221, 226, 232),
+                              const Color.fromARGB(143, 221, 226, 232),
+                              const Color.fromARGB(104, 221, 226, 232),
                             ],
                             durations: [
-                              10200,
+                              9200,
                               7100,
                             ],
                             heightPercentages: [
