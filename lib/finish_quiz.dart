@@ -3,6 +3,7 @@ import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuizEnd extends StatelessWidget {
   final String name;
@@ -37,7 +38,7 @@ class _ExitFormState extends State<ExitForm> {
     super.initState();
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 3));
-        WidgetsBinding.instance
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _controllerCenter.play());
   }
 
@@ -120,7 +121,7 @@ class _ExitFormState extends State<ExitForm> {
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: Text(
-                            'You have answered $count questions correctly!',
+                            '${AppLocalizations.of(context)!.youanswered} $count ${AppLocalizations.of(context)!.currectquestions}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -139,7 +140,7 @@ class _ExitFormState extends State<ExitForm> {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Text(
-                          'You are better than $percentage% of participants!',
+                          '${AppLocalizations.of(context)!.youarebetter} $percentage% ${AppLocalizations.of(context)!.participants}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             color: Color.fromRGBO(0, 95, 117, 1),

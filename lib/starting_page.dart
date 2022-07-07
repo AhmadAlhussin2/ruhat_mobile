@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruhat/quiz_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EnterQuiz extends StatelessWidget {
   const EnterQuiz({Key? key}) : super(key: key);
@@ -52,9 +53,9 @@ class _EnterFormState extends State<EnterForm> {
                           children: [
                             formTitle(),
                             const SizedBox(height: 10),
-                            inputField(context, "Username", nameController),
+                            inputField(context, AppLocalizations.of(context)!.username, nameController),
                             const SizedBox(height: 20),
-                            inputField(context, "PIN code", pincodeController),
+                            inputField(context, AppLocalizations.of(context)!.pincode, pincodeController),
                             const SizedBox(height: 20),
                             enterButton(),
                             const SizedBox(height: 10),
@@ -107,9 +108,9 @@ class _EnterFormState extends State<EnterForm> {
 
 
       },
-      child: const Text(
-        'ENTER',
-        style: TextStyle(
+      child: Text(
+        AppLocalizations.of(context)!.enter,
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 17,
