@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ruhat/wavy_nav_bar.dart';
+import 'package:ruhat/theme_data.dart';
 
 class QuizEnd extends StatelessWidget {
   final String name;
@@ -111,15 +112,15 @@ class _ExitFormState extends State<ExitForm> {
                     height: screenHeight / 2.8,
                     child: Stack(
                       children: [
-                        const WavingNav(),
+                        WavingNav(screenHeight/3),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
                               '${AppLocalizations.of(context)!.youanswered} $count ${AppLocalizations.of(context)!.currectquestions}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 20,
                               ),
                             ),
@@ -168,10 +169,10 @@ class _ExitFormState extends State<ExitForm> {
       onPressed: () {
         Navigator.pop(context);
       },
-      child: const Text(
-        'RETURN',
+      child: Text(
+        AppLocalizations.of(context)!.returntxt,
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 17,
         ),

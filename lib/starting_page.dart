@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ruhat/quiz_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ruhat/theme_data.dart';
 
 class EnterQuiz extends StatelessWidget {
   const EnterQuiz({Key? key}) : super(key: key);
@@ -35,14 +36,15 @@ class _EnterFormState extends State<EnterForm> {
             ),
           ),
           Center(
-            child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 700),
               child: Wrap(
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).appBarTheme.backgroundColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
@@ -53,9 +55,15 @@ class _EnterFormState extends State<EnterForm> {
                           children: [
                             formTitle(),
                             const SizedBox(height: 10),
-                            inputField(context, AppLocalizations.of(context)!.username, nameController),
+                            inputField(
+                                context,
+                                AppLocalizations.of(context)!.username,
+                                nameController),
                             const SizedBox(height: 20),
-                            inputField(context, AppLocalizations.of(context)!.pincode, pincodeController),
+                            inputField(
+                                context,
+                                AppLocalizations.of(context)!.pincode,
+                                pincodeController),
                             const SizedBox(height: 20),
                             enterButton(),
                             const SizedBox(height: 10),
@@ -74,21 +82,22 @@ class _EnterFormState extends State<EnterForm> {
   }
 
   Text formTitle() {
-    return const Text(
+    return Text(
       "Ruhat",
       style: TextStyle(
         fontSize: 50,
         fontFamily: 'shago',
-        color: Color.fromRGBO(0, 95, 117, 1),
+        color: Theme.of(context).focusColor,
       ),
     );
   }
+
   TextEditingController nameController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextButton enterButton() {
     return TextButton(
       style: TextButton.styleFrom(
-        backgroundColor: const Color.fromRGBO(0, 95, 117, 1),
+        backgroundColor: Theme.of(context).highlightColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
@@ -101,17 +110,15 @@ class _EnterFormState extends State<EnterForm> {
         final pincode = pincodeController.text;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context){
-            return QuizPage(name: name,pincode: pincode);
+          MaterialPageRoute(builder: (context) {
+            return QuizPage(name: name, pincode: pincode);
           }),
         );
-
-
       },
       child: Text(
         AppLocalizations.of(context)!.enter,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 17,
         ),
@@ -119,42 +126,43 @@ class _EnterFormState extends State<EnterForm> {
     );
   }
 
-  SizedBox inputField(BuildContext context, String hint, TextEditingController controller) {
+  SizedBox inputField(
+      BuildContext context, String hint, TextEditingController controller) {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 40,
       child: TextFormField(
         autofocus: false,
         controller: controller,
         textAlign: TextAlign.center,
-        cursorColor: const Color.fromRGBO(0, 95, 117, 1),
-        style: const TextStyle(
-          color: Color.fromRGBO(0, 95, 117, 1),
+        cursorColor: Theme.of(context).focusColor,
+        style:  TextStyle(
+          color: Theme.of(context).focusColor,
           fontSize: 20,
         ),
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color.fromRGBO(221, 226, 232, 1),
+          fillColor: Theme.of(context).secondaryHeaderColor,
           border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(221, 226, 232, 1),
+            borderSide: BorderSide(
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(221, 226, 232, 1),
+            borderSide:  BorderSide(
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(221, 226, 232, 1),
+            borderSide: BorderSide(
+              color: Theme.of(context).secondaryHeaderColor,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
           contentPadding: const EdgeInsets.all(20),
-          hintStyle: const TextStyle(
-            color: Color.fromRGBO(169, 192, 198, 1),
+          hintStyle: TextStyle(
+            color: Theme.of(context).hintColor,
           ),
           hintText: hint,
         ),

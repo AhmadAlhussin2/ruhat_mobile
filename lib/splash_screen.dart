@@ -8,8 +8,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSplashScreen(
-        backgroundColor: const Color.fromRGBO(221, 226, 232, 1),
-        duration: 1500,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        duration: 15,
         splash: const Text(
           "Ruhat",
           style: TextStyle(

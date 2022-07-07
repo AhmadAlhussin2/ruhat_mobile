@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:ruhat/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ruhat/theme_data.dart';
+
 void main() {
-  runApp(const MaterialApp(
+  runApp( MaterialApp(
     title: 'Ruhat',
-    localizationsDelegates: [
+    localizationsDelegates: const [
       AppLocalizations.delegate, 
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
-    supportedLocales: [
+    supportedLocales: const [
       Locale('en', ''),
       Locale('ar', ''),
     ],
-    home: SplashScreen(),
+    theme: ThemeClass.lightTheme,
+    darkTheme: ThemeClass.darkTheme,
+    home: const SplashScreen(),
   ));
 }

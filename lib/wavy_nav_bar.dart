@@ -3,7 +3,9 @@ import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 class WavingNav extends StatelessWidget {
-  const WavingNav({
+  final double height;
+  const WavingNav(
+    this.height, {
     Key? key,
   }) : super(key: key);
 
@@ -28,7 +30,7 @@ class WavingNav extends StatelessWidget {
             0.80,
           ],
         ),
-        size: const Size(double.infinity, 250),
+        size: Size(double.infinity, height),
         waveAmplitude: 0,
       ),
     );

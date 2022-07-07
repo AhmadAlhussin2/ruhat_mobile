@@ -26,5 +26,9 @@
     "participants": "of participants!",
     "@participants": {
         "description": "of participants! statement"
+    },
+    "returntxt": "RETURN",
+    "@returntxt": {
+        "description": "return to previous"
     }
 }

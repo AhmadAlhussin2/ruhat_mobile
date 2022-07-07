@@ -3,6 +3,7 @@ import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
 import 'package:ruhat/wavy_nav_bar.dart';
 import 'finish_quiz.dart';
+import 'package:ruhat/theme_data.dart';
 
 class QuizPage extends StatelessWidget {
   final String name;
@@ -63,15 +64,15 @@ class _QuizFormState extends State<QuizForm> {
                   height: screenHeight / 2.8,
                   child: Stack(
                     children: [
-                      const WavingNav(),
+                      WavingNav(screenHeight / 3),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: Text(
                             (snapshot.data as Quiz).questions[index]
                                 ['question'],
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
                               fontSize: 20,
                             ),
                           ),
@@ -86,16 +87,25 @@ class _QuizFormState extends State<QuizForm> {
                     listOfOptions[0],
                     (snapshot.data as Quiz).questions[index]['options'][0],
                     (snapshot.data as Quiz).questions[index]['answer']),
+                const SizedBox(
+                  height: 10,
+                ),
                 optionButton(
                     context,
                     listOfOptions[1],
                     (snapshot.data as Quiz).questions[index]['options'][1],
                     (snapshot.data as Quiz).questions[index]['answer']),
+                const SizedBox(
+                  height: 10,
+                ),
                 optionButton(
                     context,
                     listOfOptions[2],
                     (snapshot.data as Quiz).questions[index]['options'][2],
                     (snapshot.data as Quiz).questions[index]['answer']),
+                const SizedBox(
+                  height: 10,
+                ),
                 optionButton(
                     context,
                     listOfOptions[3],
@@ -139,7 +149,7 @@ class _QuizFormState extends State<QuizForm> {
       },
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: SizedBox(
@@ -161,8 +171,8 @@ class _QuizFormState extends State<QuizForm> {
                   child: Center(
                     child: Text(
                       optionLetter,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
