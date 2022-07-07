@@ -1,25 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ruhat/quiz_page.dart';
+import 'package:ruhat/logic.dart';
+
 
 class EnterQuiz extends StatelessWidget {
-  const EnterQuiz({Key? key}) : super(key: key);
+  EnterQuiz({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: EnterForm(),
-    );
-  }
-}
-
-class EnterForm extends StatefulWidget {
-  const EnterForm({Key? key}) : super(key: key);
-
-  @override
-  State<EnterForm> createState() => _EnterFormState();
-}
-
-class _EnterFormState extends State<EnterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +39,9 @@ class _EnterFormState extends State<EnterForm> {
                             const SizedBox(height: 10),
                             inputField(context, "Username", nameController),
                             const SizedBox(height: 20),
-                            inputField(context, "PIN code", pincodeController),
+                            inputField(context, "Code", pincodeController),
                             const SizedBox(height: 20),
-                            enterButton(),
+                            enterButton(context),
                             const SizedBox(height: 10),
                           ],
                         ),
@@ -72,6 +57,7 @@ class _EnterFormState extends State<EnterForm> {
     );
   }
 
+
   Text formTitle() {
     return const Text(
       "Ruhat",
@@ -84,7 +70,7 @@ class _EnterFormState extends State<EnterForm> {
   }
   TextEditingController nameController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
-  TextButton enterButton() {
+  TextButton enterButton(context) {
     return TextButton(
       style: TextButton.styleFrom(
         backgroundColor: const Color.fromRGBO(0, 95, 117, 1),
@@ -94,18 +80,7 @@ class _EnterFormState extends State<EnterForm> {
         padding: const EdgeInsets.fromLTRB(50, 15, 50, 15),
       ),
       onPressed: () {
-        // Send a request to a server (Ruhat api) and if the response got a 200 status code, let the user to a second page, where the quiz is fetched
-        // Otherwise, display an error
-        final name = nameController.text;
-        final pincode = pincodeController.text;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context){
-            return QuizPage(name: name,pincode: pincode);
-          }),
-        );
-
-
+        enterButtonPressed(nameController.text,pincodeController.text, context);
       },
       child: const Text(
         'ENTER',
@@ -160,4 +135,5 @@ class _EnterFormState extends State<EnterForm> {
       ),
     );
   }
+
 }

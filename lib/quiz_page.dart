@@ -1,136 +1,162 @@
 import 'package:flutter/material.dart';
-import 'package:ruhat/api.dart';
+import 'package:ruhat/logic.dart';
 import 'package:ruhat/models.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import 'finish_quiz.dart';
 
-class QuizPage extends StatelessWidget {
+class QuizPage extends StatefulWidget {
   final String name;
   final String pincode;
-  const QuizPage({Key? key, required this.name, required this.pincode}) : super(key: key);
+
+  const QuizPage({Key? key, required this.name, required this.pincode})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: QuizForm(name: name, pincode: pincode),
-    );
-  }
+  State<StatefulWidget> createState() => _QuizPageState();
 }
 
-class QuizForm extends StatefulWidget {
-  final String name;
-  final String pincode;
-  const QuizForm({Key? key, required this.name, required this.pincode}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _QuizFormState();
-}
-
-class _QuizFormState extends State<QuizForm> {
+class _QuizPageState extends State<QuizPage> {
   final listOfOptions = ["A", "B", "C", "D"];
-  late Future<Quiz> _dataFuture;
-  var index = 0;
+  late Quiz quiz;
   var quizLength = 0;
   late String name;
   late String pincode;
 
+  // State
+  bool _isLoading = false;
+  bool _hasInternet = true;
+  var index = 0;
+
   @override
   void initState() {
     super.initState();
-    // print(widget.name);
-    _dataFuture = getQuiz(widget.name, widget.pincode).catchError(handleError);
+    setState(() {
+      _isLoading = true;
+    });
+    checkNetwork().then((connection) {
+      setState((){
+        _hasInternet = connection;
+      });
+    });
+    getQuiz(widget.name, widget.pincode).then((data) {
+      setState(() {
+        quiz = data;
+        _isLoading = false;
+      });
+      quizLength = quiz.questions.length;
+    }).catchError(handleError);
     name = widget.name;
     pincode = widget.pincode;
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: bgColor,
-      body: FutureBuilder<Quiz>(
-        future: _dataFuture,
-        // initialData: Quiz.fromJson("Null"),
-        builder: (BuildContext context, AsyncSnapshot<Quiz> snapshot) {
-          if (snapshot.hasData) {
-            quizLength = (snapshot.data as Quiz).questions.length;
-            return Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: screenHeight / 2.8,
-                  child: Stack(
-                    children: [
-                      DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(0, 95, 117, 1),
-                        ),
-                        child: WaveWidget(
-                          config: CustomConfig(
-                            colors: [
-                              const Color.fromARGB(143, 221, 226, 232),
-                              const Color.fromARGB(104, 221, 226, 232),
-                            ],
-                            durations: [
-                              9200,
-                              7100,
-                            ],
-                            heightPercentages: [
-                              0.85,
-                              0.80,
-                            ],
-                          ),
-                          size: const Size(double.infinity, 250),
-                          waveAmplitude: 0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            (snapshot.data as Quiz).questions[index]
-                                ['question'],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 30),
-                optionButton(
-                    context,
-                    listOfOptions[0],
-                    (snapshot.data as Quiz).questions[index]['options'][0],
-                    (snapshot.data as Quiz).questions[index]['answer']),
-                optionButton(
-                    context,
-                    listOfOptions[1],
-                    (snapshot.data as Quiz).questions[index]['options'][1],
-                    (snapshot.data as Quiz).questions[index]['answer']),
-                optionButton(
-                    context,
-                    listOfOptions[2],
-                    (snapshot.data as Quiz).questions[index]['options'][2],
-                    (snapshot.data as Quiz).questions[index]['answer']),
-                optionButton(
-                    context,
-                    listOfOptions[3],
-                    (snapshot.data as Quiz).questions[index]['options'][3],
-                    (snapshot.data as Quiz).questions[index]['answer']),
-              ],
-            );
-          } else {
-            // TODO: There should be a loading screen for a quiz
-            return const Text("Debug");
-          }
-        },
+      body: SafeArea(
+        child: _isLoading ? _buildLoading() : _buildBody(),
       ),
     );
+  }
+
+  Widget _buildBody() {
+    if (name != null && pincode != null) {
+      return _buildQuiz();
+    } else {
+      return _buildException();
+    }
+  }
+
+  Widget _buildException() {
+    return Center(
+      child: Text("Exception in _buildBody(), name==null or code==null"),
+    );
+  }
+
+  Widget _buildQuiz() {
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: screenHeight / 2.8,
+          child: Stack(
+            children: [
+              DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(0, 95, 117, 1),
+                ),
+                child: WaveWidget(
+                  config: CustomConfig(
+                    colors: [
+                      const Color.fromARGB(143, 221, 226, 232),
+                      const Color.fromARGB(104, 221, 226, 232),
+                    ],
+                    durations: [
+                      9200,
+                      7100,
+                    ],
+                    heightPercentages: [
+                      0.85,
+                      0.80,
+                    ],
+                  ),
+                  size: const Size(double.infinity, 250),
+                  waveAmplitude: 0,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    quiz.questions[index]['question'],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 30),
+        optionButton(
+            context,
+            listOfOptions[0],
+            quiz.questions[index]['options'][0],
+            quiz.questions[index]['answer']),
+        optionButton(
+            context,
+            listOfOptions[1],
+            quiz.questions[index]['options'][1],
+            quiz.questions[index]['answer']),
+        optionButton(
+            context,
+            listOfOptions[2],
+            quiz.questions[index]['options'][2],
+            quiz.questions[index]['answer']),
+        optionButton(
+            context,
+            listOfOptions[3],
+            quiz.questions[index]['options'][3],
+            quiz.questions[index]['answer']),
+      ],
+    );
+  }
+
+  Widget _buildLoading() {
+    if (_hasInternet) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return const Center(
+        child: Text("No internet connection"),
+      );
+    }
+
   }
 
   TextButton optionButton(BuildContext context, String optionLetter,
@@ -142,20 +168,18 @@ class _QuizFormState extends State<QuizForm> {
         ),
       ),
       onPressed: () {
-        var result = postAnswer(
-            optionStatement, correctAnswer, widget.name, widget.pincode);
-        index++;
-        // if index is equal to length of a quiz => go to the result page
-        if (index == quizLength) {
-          Future.delayed(const Duration(milliseconds: 500));
-          result.whenComplete(() {
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return QuizEnd(name: name, pincode: pincode);
-            }));
-          });
+        optionButtonPressed(context, optionStatement, correctAnswer,
+            widget.name, widget.pincode);
+        print("${index} out of ${quizLength}");
+        if (index == quizLength - 1) {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return QuizEnd(name: name, pincode: pincode);
+          }));
         } else {
-          setState(() {});
+          setState(() {
+            index++;
+          });
         }
       },
       child: DecoratedBox(
@@ -214,7 +238,7 @@ class _QuizFormState extends State<QuizForm> {
   handleError(e) {
     if (e.toString() == "Exception: 404") {
       // Handle not existing quiz
-    } else if (e.toString() == "Expection: 204") {
+    } else if (e.toString() == "Exception: 204") {
       // Handle not opened quiz
     }
   }

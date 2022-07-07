@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
             color: Color.fromRGBO(0, 95, 117, 1),
           ),
         ),
-        nextScreen: const EnterQuiz(),
+        nextScreen: EnterQuiz(),
         splashTransition: SplashTransition.fadeTransition,
       ),
     );
