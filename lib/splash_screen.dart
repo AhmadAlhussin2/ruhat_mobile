@@ -9,16 +9,16 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: AnimatedSplashScreen(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
-        duration: 15,
-        splash: const Text(
+        duration: 1500,
+        splash: Text(
           "Ruhat",
           style: TextStyle(
             fontSize: 50,
             fontFamily: 'shago',
-            color: Color.fromRGBO(0, 95, 117, 1),
+            color: Theme.of(context).focusColor,
           ),
         ),
-        nextScreen: const EnterQuiz(),
+        nextScreen: EnterQuiz(),
         splashTransition: SplashTransition.fadeTransition,
       ),
     );

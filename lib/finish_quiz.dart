@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ruhat/api.dart';
+import 'package:ruhat/logic.dart';
 import 'package:ruhat/models.dart';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
@@ -7,37 +7,47 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ruhat/wavy_nav_bar.dart';
 import 'package:ruhat/theme_data.dart';
 
-class QuizEnd extends StatelessWidget {
+class QuizEnd extends StatefulWidget {
   final String name;
   final String pincode;
+
   const QuizEnd({Key? key, required this.name, required this.pincode})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ExitForm(name: name, pincode: pincode),
-    );
-  }
+  State<StatefulWidget> createState() => _QuizEndState();
 }
 
-class ExitForm extends StatefulWidget {
-  final String name;
-  final String pincode;
-  const ExitForm({Key? key, required this.name, required this.pincode})
-      : super(key: key);
-
-  @override
-  State<ExitForm> createState() => _ExitFormState();
-}
-
-class _ExitFormState extends State<ExitForm> {
-  var index = 0;
-  var quizLength = 0;
+class _QuizEndState extends State<QuizEnd> {
+  // State
+  bool _isLoading = false;
+  bool _hasInternet = true;
+  var count;
+  var percentage;
+  dynamic result;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _isLoading = true;
+    });
+    checkNetwork().then((connection){
+      setState((){
+        _hasInternet=connection;
+      });
+      if (_hasInternet) {
+        getResult(widget.name, widget.pincode).then((data) {
+          setState(() {
+            _isLoading = false;
+          });
+          result = data;
+          count = result['correct_answers'];
+          percentage = result['percentage'];
+        });
+      }
+    });
+
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 3));
     WidgetsBinding.instance
@@ -51,6 +61,7 @@ class _ExitFormState extends State<ExitForm> {
   }
 
   late ConfettiController _controllerCenter;
+
   Path drawStar(Size size) {
     double degToRad(double deg) => deg * (pi / 180.0);
     const numberOfPoints = 5;
@@ -74,38 +85,48 @@ class _ExitFormState extends State<ExitForm> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: bgColor,
-      body: FutureBuilder(
-        future: getResult(widget.name, widget.pincode),
-        builder: (BuildContext context,
-            AsyncSnapshot<Map<String, dynamic>> snapshot) {
-          var count = 0;
-          var percentage = 0.0;
-          if (snapshot.hasData) {
-            count = snapshot.data?['correct_answers'];
-            percentage = snapshot.data?['percentage'];
-          }
-          return Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: ConfettiWidget(
-                  confettiController: _controllerCenter,
-                  blastDirectionality: BlastDirectionality
-                      .explosive, // don't specify a direction, blast randomly
-                  colors: const [
-                    Colors.green,
-                    Colors.blue,
-                    Colors.pink,
-                    Colors.white,
-                    Colors.purple
-                  ], // manually specify the colors to be used
-                  createParticlePath: drawStar, // define a custom shape/path.
-                ),
-              ),
-              Column(
+      body: SafeArea(
+        child: _isLoading ? _buildLoading() : _buildBody(),
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    if (_hasInternet) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return const Center(
+        child: Text("No internet connection"),
+      );
+    }
+
+  }
+
+  Widget _buildBody() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Stack(
+      children: [
+        Align(
+            alignment: Alignment.center,
+            child: ConfettiWidget(
+              confettiController: _controllerCenter,
+              blastDirectionality: BlastDirectionality.explosive,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.white,
+                Colors.purple
+              ],
+              createParticlePath: drawStar,
+            )),
+    Column(
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -150,11 +171,9 @@ class _ExitFormState extends State<ExitForm> {
                   returnButton(),
                 ],
               ),
-            ],
-          );
-        },
-      ),
-    );
+            returnButton(),
+          ],
+        );
   }
 
   TextButton returnButton() {
