@@ -8,7 +8,6 @@ import 'finish_quiz.dart';
 class QuizPage extends StatefulWidget {
   final String name;
   final String pincode;
-
   const QuizPage({Key? key, required this.name, required this.pincode})
       : super(key: key);
 
@@ -170,7 +169,6 @@ class _QuizPageState extends State<QuizPage> {
       onPressed: () {
         optionButtonPressed(context, optionStatement, correctAnswer,
             widget.name, widget.pincode);
-        print("${index} out of ${quizLength}");
         if (index == quizLength - 1) {
           Navigator.pop(context);
           Navigator.push(context, MaterialPageRoute(builder: (context) {

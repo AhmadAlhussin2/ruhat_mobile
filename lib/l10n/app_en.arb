@@ -1,0 +1,30 @@
+{
+    "enter": "Enter",
+    "@enter": {
+      "description": "To enter sth"
+    },
+    "username": "Username",
+    "@username": {
+      "description": "the user name"
+    },
+    "pincode": "PIN Code",
+    "@pincode": {
+      "description": "Special code to enter"
+    },
+    "youanswered": "You have answered",
+    "@youanswered": {
+      "description": "You have answered statement"
+    },
+    "currectquestions": "questions correctly!",
+    "@currectquestions": {
+        "description": "questions correctly! statment"
+    },
+    "youarebetter": "You are better than",
+    "@youarebetter": {
+        "description": "You are better than statment"
+    },
+    "participants": "of participants!",
+    "@participants": {
+        "description": "of participants! statement"
+    }
+}

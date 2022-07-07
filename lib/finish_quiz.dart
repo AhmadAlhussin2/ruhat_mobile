@@ -3,6 +3,8 @@ import 'package:ruhat/logic.dart';
 import 'package:ruhat/models.dart';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ruhat/wavy_nav_bar.dart';
 
 class QuizEnd extends StatefulWidget {
   final String name;
@@ -82,6 +84,7 @@ class _QuizEndState extends State<QuizEnd> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
@@ -122,57 +125,54 @@ class _QuizEndState extends State<QuizEnd> {
               ],
               createParticlePath: drawStar,
             )),
-        Column(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: screenHeight / 2.8,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(0, 95, 117, 1),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.elliptical(screenWidth / 2, 40),
-                    bottomRight: Radius.elliptical(screenWidth / 2, 40),
+    Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: screenHeight / 2.8,
+                    child: Stack(
+                      children: [
+                        const WavingNav(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              '${AppLocalizations.of(context)!.youanswered} $count ${AppLocalizations.of(context)!.currectquestions}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      'You have answered $count questions correctly!',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        fontSize: 20,
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: screenHeight / 2.8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          '${AppLocalizations.of(context)!.youarebetter} $percentage% ${AppLocalizations.of(context)!.participants}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromRGBO(0, 95, 117, 1),
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  returnButton(),
+                ],
               ),
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: screenHeight / 2.8,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    'You are better than $percentage% of participants!',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color.fromRGBO(0, 95, 117, 1),
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
             returnButton(),
           ],
-        ),
-      ],
-    );
+        );
   }
 
   TextButton returnButton() {
