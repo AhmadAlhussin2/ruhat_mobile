@@ -4,6 +4,7 @@ import 'package:ruhat/models.dart';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ruhat/wavy_nav_bar.dart';
 
 class QuizEnd extends StatelessWidget {
   final String name;
@@ -72,7 +73,6 @@ class _ExitFormState extends State<ExitForm> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: bgColor,
@@ -109,27 +109,23 @@ class _ExitFormState extends State<ExitForm> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: screenHeight / 2.8,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(0, 95, 117, 1),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.elliptical(screenWidth / 2, 40),
-                          bottomRight: Radius.elliptical(screenWidth / 2, 40),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            '${AppLocalizations.of(context)!.youanswered} $count ${AppLocalizations.of(context)!.currectquestions}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                              fontSize: 20,
+                    child: Stack(
+                      children: [
+                        const WavingNav(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              '${AppLocalizations.of(context)!.youanswered} $count ${AppLocalizations.of(context)!.currectquestions}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 30),

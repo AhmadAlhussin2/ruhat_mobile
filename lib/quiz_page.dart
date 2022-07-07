@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ruhat/api.dart';
 import 'package:ruhat/models.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+import 'package:ruhat/wavy_nav_bar.dart';
 import 'finish_quiz.dart';
 
 class QuizPage extends StatelessWidget {
   final String name;
   final String pincode;
-  const QuizPage({Key? key, required this.name, required this.pincode}) : super(key: key);
+  const QuizPage({Key? key, required this.name, required this.pincode})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,8 @@ class QuizPage extends StatelessWidget {
 class QuizForm extends StatefulWidget {
   final String name;
   final String pincode;
-  const QuizForm({Key? key, required this.name, required this.pincode}) : super(key: key);
+  const QuizForm({Key? key, required this.name, required this.pincode})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QuizFormState();
@@ -62,29 +63,7 @@ class _QuizFormState extends State<QuizForm> {
                   height: screenHeight / 2.8,
                   child: Stack(
                     children: [
-                      DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(0, 95, 117, 1),
-                        ),
-                        child: WaveWidget(
-                          config: CustomConfig(
-                            colors: [
-                              const Color.fromARGB(143, 221, 226, 232),
-                              const Color.fromARGB(104, 221, 226, 232),
-                            ],
-                            durations: [
-                              9200,
-                              7100,
-                            ],
-                            heightPercentages: [
-                              0.85,
-                              0.80,
-                            ],
-                          ),
-                          size: const Size(double.infinity, 250),
-                          waveAmplitude: 0,
-                        ),
-                      ),
+                      const WavingNav(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
