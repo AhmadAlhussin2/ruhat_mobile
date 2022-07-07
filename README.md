@@ -6,14 +6,6 @@ Mobile version of our [website](https://daber.space).
 
 Now you can join a quiz, answer questions and get results on your smartphone! No need to open your browser anymore.
 
-## Features
-
-✅ Three screens (Home Page, Quiz Page, Result Page)
-
-✅ Networking ( API of Ruhat website )
-
-✅ Custom app icon
-
 
 ## How to build
 
@@ -29,6 +21,25 @@ Building apk for web:
 You need to type in the teminal `flutter build web`.
 
 
+## Features
+
+✅ Three screens (Home Page, Quiz Page, Result Page)
+
+✅ Networking ( API of Ruhat website )
+
+✅ Custom app icon
+
+✅ App is stable and do not crash when internet connection lost
+
+✅ Fancy animations are used
+
+✅ App works for Android, Web, and IOS
+
+✅ App supports Arabic and English languages
+
+✅ App supports dark theme
+
+
 ## List of screens
 
 ✅ Starting Screen
@@ -39,7 +50,7 @@ You need to type in the teminal `flutter build web`.
 
 ## Links and Demo
 
-Download an [APK](https://drive.google.com/file/d/1xwOhSGE95xUcCKwXYQGFqO2j9w3RKiQy/view?usp=sharing).
+Download an [APK](https://drive.google.com/file/d/12nbDXD1lBw7G6fZGBdy8sTyVNOuK2lwK/view?usp=sharing)
 
 Gif Presentation:
 
