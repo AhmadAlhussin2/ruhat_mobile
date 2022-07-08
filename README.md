@@ -56,7 +56,13 @@ For ios version you can go to actions section
 
 And for web version you need to build it
 
-Gif Presentation:
+## Gif Presentation
 
-<img src ="https://user-images.githubusercontent.com/102483482/178080698-bc0fa8df-3f5c-4328-9397-af4fd8e9edfb.gif" height="500px">
+### Dark mode
+
+<img src ="https://user-images.githubusercontent.com/102483482/178082389-9df4f033-88dc-46f9-964d-f0930c919206.gif" height="500px">
+
+### Light mode
+
+<img src ="https://user-images.githubusercontent.com/102483482/178081799-5901fb94-2113-4e1f-80b7-ee1ccd86e2ed.gif" height="500px">
 
