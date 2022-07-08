@@ -58,5 +58,5 @@ And for web version you need to build it
 
 Gif Presentation:
 
-![demo gif](https://user-images.githubusercontent.com/102483482/178080698-bc0fa8df-3f5c-4328-9397-af4fd8e9edfb.gif)
+<img src ="https://user-images.githubusercontent.com/102483482/178080698-bc0fa8df-3f5c-4328-9397-af4fd8e9edfb.gif" height="500px">
 
