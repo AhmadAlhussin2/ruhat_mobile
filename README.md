@@ -58,4 +58,5 @@ And for web version you need to build it
 
 Gif Presentation:
 
-![There should be a gif](https://media0.giphy.com/media/lbKYo3ioG5TRPivoWy/giphy.gif?cid=790b7611c1037d3bf9c381169eb3163d4dbed72c1c12e255&rid=giphy.gif&ct=g)
+![demo gif](https://user-images.githubusercontent.com/102483482/178080698-bc0fa8df-3f5c-4328-9397-af4fd8e9edfb.gif)
+
