@@ -42,3 +42,7 @@ jobs:
       with:
         name: ios-build
         path: build/ios/iphoneos
+        
+    - name: Super-Linter
+      uses: github/super-linter@v4.9.4
+
