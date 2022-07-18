@@ -2,9 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches-ignore: [master, main]
   pull_request:
-    branches: [ "main" ]
+    bbranches-ignore: [master, main]
 
 jobs:
   build_android:
